@@ -229,7 +229,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/** Helper class used in event publishing. */
 	@Nullable
 	private ApplicationEventMulticaster applicationEventMulticaster;
-
+    // @author 陈纲 注释
+    // 应用起动的指标
 	/** Application startup metrics. **/
 	private ApplicationStartup applicationStartup = ApplicationStartup.DEFAULT;
 
@@ -565,6 +566,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				postProcessBeanFactory(beanFactory);
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
+				// author 陈纲
 				// Invoke factory processors registered as beans in the context.
 				invokeBeanFactoryPostProcessors(beanFactory);
 
@@ -572,9 +574,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				registerBeanPostProcessors(beanFactory);
 				beanPostProcess.end();
 
+                // author 陈纲
+                // 国际化配置
 				// Initialize message source for this context.
 				initMessageSource();
 
+                // author 陈纲
+                // 广播
 				// Initialize event multicaster for this context.
 				initApplicationEventMulticaster();
 
@@ -638,10 +644,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Initialize any placeholder property sources in the context environment.
 		initPropertySources();
 
+        // @author 陈纲
+        // <p>判断环境变量，如果为空，创建环境变更，反之直接返回</p>
 		// Validate that all properties marked as required are resolvable:
 		// see ConfigurablePropertyResolver#setRequiredProperties
 		getEnvironment().validateRequiredProperties();
 
+		// @author 陈纲
+        // 创建LinkedHashSet存储预刷新前的监听器
 		// Store pre-refresh ApplicationListeners...
 		if (this.earlyApplicationListeners == null) {
 			this.earlyApplicationListeners = new LinkedHashSet<>(this.applicationListeners);

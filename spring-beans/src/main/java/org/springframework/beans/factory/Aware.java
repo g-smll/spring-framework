@@ -17,13 +17,18 @@
 package org.springframework.beans.factory;
 
 /**
+ * @author 陈纲 注释
+ * merely 仅仅 / explicitly 明确的
  * A marker superinterface indicating that a bean is eligible to be notified by the
  * Spring container of a particular framework object through a callback-style method.
+ * 做为一个超级接口的标识，表明此bean是一个合法且能被一个特殊的框架对象Spring容器通过回调的方法发现。
  * The actual method signature is determined by individual subinterfaces but should
  * typically consist of just one void-returning method that accepts a single argument.
- *
+ * 真实的方法签名是由子接口定义，子接口通常包含一个空构建方法，接收一个参数
  * <p>Note that merely implementing {@link Aware} provides no default functionality.
+ * 要注意的是，子接口的实际没有提供默认方法
  * Rather, processing must be done explicitly, for example in a
+ * 然而，处理类必须明确具体要做的内容，可参考接BeanPostProcessor的实现类 ApplicationContextAwareProcessor
  * {@link org.springframework.beans.factory.config.BeanPostProcessor}.
  * Refer to {@link org.springframework.context.support.ApplicationContextAwareProcessor}
  * for an example of processing specific {@code *Aware} interface callbacks.
