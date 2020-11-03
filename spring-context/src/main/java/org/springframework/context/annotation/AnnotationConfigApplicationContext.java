@@ -61,11 +61,13 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 
 
 	/**
+     * @author 陈纲 注释
+     * AnnotationConfigApplicationContext 其父类为 GenericApplicationContext 通过其父类的构造函数
+     * 创建DefaultListableBeanFactory类的工厂
 	 * Create a new AnnotationConfigApplicationContext that needs to be populated
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
 	 */
 	public AnnotationConfigApplicationContext() {
-        // @author 陈纲 注释
         // 此行暂时不做说明
 		StartupStep createAnnotatedBeanDefReader = this.getApplicationStartup().start("spring.context.annotated-bean-reader.create");
 		/**
@@ -165,6 +167,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	//---------------------------------------------------------------------
 
 	/**
+     * @author 陈纲
 	 * Register one or more component classes to be processed.
 	 * <p>Note that {@link #refresh()} must be called in order for the context
 	 * to fully process the new classes.
@@ -178,6 +181,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		Assert.notEmpty(componentClasses, "At least one component class must be specified");
 		StartupStep registerComponentClass = this.getApplicationStartup().start("spring.context.component-classes.register")
 				.tag("classes", () -> Arrays.toString(componentClasses));
+		// 将componentClasses数组类，注册到DefaultListableBeanFactory.Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256)
 		this.reader.register(componentClasses);
 		registerComponentClass.end();
 	}

@@ -144,6 +144,13 @@ class ConditionEvaluator {
 		@Nullable
 		private final ClassLoader classLoader;
 
+		/**
+         * author 陈纲 注释
+         * 分别传入三个对象，传入值描述如下
+         * BeanDefinitionRegistry 上下文本身 -> AnnotationConfigApplicationContext
+         * Environment environment 应用环境对象 -> StandardEnvironment
+         * ResourceLoader resourceLoader 资源加载器 -> 未有初始值，输入参数值为空
+         */
 		public ConditionContextImpl(@Nullable BeanDefinitionRegistry registry,
 				@Nullable Environment environment, @Nullable ResourceLoader resourceLoader) {
 
@@ -154,6 +161,10 @@ class ConditionEvaluator {
 			this.classLoader = deduceClassLoader(resourceLoader, this.beanFactory);
 		}
 
+		/**
+         * @author 陈纲 注释
+         * 推导工产类ConfigurableListableBeanFactory
+         */
 		@Nullable
 		private ConfigurableListableBeanFactory deduceBeanFactory(@Nullable BeanDefinitionRegistry source) {
 			if (source instanceof ConfigurableListableBeanFactory) {
@@ -172,6 +183,10 @@ class ConditionEvaluator {
 			return new StandardEnvironment();
 		}
 
+		/**
+         * @author 陈纲 注释
+         * 推导资源加载器 ResourceLoader
+         * */
 		private ResourceLoader deduceResourceLoader(@Nullable BeanDefinitionRegistry source) {
 			if (source instanceof ResourceLoader) {
 				return (ResourceLoader) source;
