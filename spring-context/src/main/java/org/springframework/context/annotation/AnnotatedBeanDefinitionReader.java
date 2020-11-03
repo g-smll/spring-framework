@@ -72,6 +72,8 @@ public class AnnotatedBeanDefinitionReader {
 	}
 
 	/**
+     * @author 陈纲 注释
+     * condition 条件 / Evaluator 评估
 	 * Create a new {@code AnnotatedBeanDefinitionReader} for the given registry,
 	 * using the given {@link Environment}.
 	 * @param registry the {@code BeanFactory} to load bean definitions into,
