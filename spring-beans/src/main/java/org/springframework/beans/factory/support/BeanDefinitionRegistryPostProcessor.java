@@ -34,8 +34,11 @@ public interface BeanDefinitionRegistryPostProcessor extends BeanFactoryPostProc
 
 	/**
 	 * Modify the application context's internal bean definition registry after its
+	 * 在标准初始化之后，修改应用上下文内部bean definition 注册信息
 	 * standard initialization. All regular bean definitions will have been loaded,
+	 * 所有Spring 内部bean definitions 将会被加载
 	 * but no beans will have been instantiated yet. This allows for adding further
+	 * 但是，没有beans对象会被初化， 这里允许增加特性给到 bean definitions, 在下一步处理之前
 	 * bean definitions before the next post-processing phase kicks in.
 	 * @param registry the bean definition registry used by the application context
 	 * @throws org.springframework.beans.BeansException in case of errors
