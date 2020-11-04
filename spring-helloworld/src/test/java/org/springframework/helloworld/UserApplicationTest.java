@@ -15,21 +15,20 @@
  */
 package org.springframework.helloworld;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- * description class JavaConfig.
+ * description class UserApplicationTest.
  *
  * @author Chen Gang
  */
-@Configuration
-@ComponentScan
-public class JavaConfig {
+public class UserApplicationTest {
 
-	@Bean
-	public User getUser(){
-		return new User(10,"陈纲");
+	@Test
+	public  void getBean() {
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
+		User user = context.getBean(User.class);
+		System.out.printf("user->" + user.toString());
 	}
 }
