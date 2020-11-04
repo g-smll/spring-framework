@@ -16,6 +16,7 @@
 package org.springframework.helloworld;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
@@ -23,7 +24,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  * @author Chen Gang
  */
-public class UserApplicationTest {
+public class UserApplicationTests {
 
 	@Test
 	public  void getBean() {
