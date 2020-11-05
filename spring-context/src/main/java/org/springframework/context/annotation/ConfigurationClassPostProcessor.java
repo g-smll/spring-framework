@@ -71,16 +71,17 @@ import org.springframework.util.ClassUtils;
 /**
  * {@link BeanFactoryPostProcessor} used for bootstrapping processing of
  * {@link Configuration @Configuration} classes.
- *
+ * ConfigurationClassPostProcessor 用于引导处理
  * <p>Registered by default when using {@code <context:annotation-config/>} or
  * {@code <context:component-scan/>}. Otherwise, may be declared manually as
  * with any other BeanFactoryPostProcessor.
+ * ConfigurationClassPostProcessor可以被 {@code <context:annotation-config/>} / {@code <context:component-scan/>} 在XML文件中激活引导
  *
  * <p>This post processor is priority-ordered as it is important that any
  * {@link Bean} methods declared in {@code @Configuration} classes have
  * their corresponding bean definitions registered before any other
  * {@link BeanFactoryPostProcessor} executes.
- *
+ * ConfigurationClassPostProcessor 总结：主要解析任意被标注了 @Configuration/@ComponentScan/@ComponentScans/@Import的类
  * @author Chris Beams
  * @author Juergen Hoeller
  * @author Phillip Webb
@@ -290,6 +291,9 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 					logger.debug("Bean definition has already been processed as a configuration class: " + beanDef);
 				}
 			}
+			// 处理业务 ->
+			// 1 如果加了@Configuration，那么对应的BeanDefinition为full;
+			// 2 如果加了@Bean,@Component,@ComponentScan,@Import,@ImportResource这些注解，则为lite
 			else if (ConfigurationClassUtils.checkConfigurationClassCandidate(beanDef, this.metadataReaderFactory)) {
 				configCandidates.add(new BeanDefinitionHolder(beanDef, beanName));
 			}
@@ -335,6 +339,11 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		Set<ConfigurationClass> alreadyParsed = new HashSet<>(configCandidates.size());
 		do {
 			StartupStep processConfig = this.applicationStartup.start("spring.context.config-classes.parse");
+			// 解析配置类其它包括
+			// A @ComponentScan扫描出来的类
+			// B @Import 注册的类
+			// C @Bean 方法定义的类
+			// 重点被标识 @Configuration类 && @ComponentScan扫描类会被加载到DefaultListableBeanFactory.beanDefinitionMap
 			parser.parse(candidates);
 			parser.validate();
 
@@ -347,6 +356,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 						registry, this.sourceExtractor, this.resourceLoader, this.environment,
 						this.importBeanNameGenerator, parser.getImportRegistry());
 			}
+			// 被标识@Import && @Bean类，加载到DefaultListableBeanFactory.beanDefinitionMap
 			this.reader.loadBeanDefinitions(configClasses);
 			alreadyParsed.addAll(configClasses);
 			processConfig.tag("classCount", () -> String.valueOf(configClasses.size())).end();

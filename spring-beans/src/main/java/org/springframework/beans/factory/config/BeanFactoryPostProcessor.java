@@ -64,9 +64,12 @@ public interface BeanFactoryPostProcessor {
 
 	/**
 	 * Modify the application context's internal bean factory after its standard
+	 * 修改应用上下文内部的 bean factory 在其初始化之后
 	 * initialization. All bean definitions will have been loaded, but no beans
+	 * 所有bean definitions 将会被加载完成，但是没有bean会被初始化, 在此方法中允许重写或者增加
 	 * will have been instantiated yet. This allows for overriding or adding
 	 * properties even to eager-initializing beans.
+	 * 属性对于即将初始化的bean
 	 * @param beanFactory the bean factory used by the application context
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 */

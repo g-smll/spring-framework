@@ -57,7 +57,9 @@ final class PostProcessorRegistrationDelegate {
 	private PostProcessorRegistrationDelegate() {
 	}
 
-
+	//1 调用Spring内部类ConfigurationClassPostProcessor
+	//2 执行ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry# 注解解析
+	//3 执行ConfigurationClassPostProcessor.postProcessBeanFactory# 增加bean后置处理器
 	public static void invokeBeanFactoryPostProcessors(
 			ConfigurableListableBeanFactory beanFactory, List<BeanFactoryPostProcessor> beanFactoryPostProcessors) {
 
@@ -99,7 +101,7 @@ final class PostProcessorRegistrationDelegate {
 			}
 			sortPostProcessors(currentRegistryProcessors, beanFactory);
 			registryProcessors.addAll(currentRegistryProcessors);
-			// 由 BeanFactoryPostProcessor.postProcessBeanFactory 接口方法统一处理
+			// 由 ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry 接口方法统一处理
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry, beanFactory.getApplicationStartup());
 			currentRegistryProcessors.clear();
 
@@ -135,6 +137,9 @@ final class PostProcessorRegistrationDelegate {
 			}
 
 			// Now, invoke the postProcessBeanFactory callback of all processors handled so far.
+			// 统一由ConfigurationClassPostProcessor.postProcessBeanFactory方法处理
+			// 其它业务意义在于
+			// 增加ImportAwareBeanPostProcessor后置处理器，干预bean的创建过程
 			invokeBeanFactoryPostProcessors(registryProcessors, beanFactory);
 			invokeBeanFactoryPostProcessors(regularPostProcessors, beanFactory);
 		}

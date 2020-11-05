@@ -50,8 +50,9 @@ import org.springframework.stereotype.Component;
  */
 abstract class ConfigurationClassUtils {
 
+	// 在解析类的过程中，如果类被@Configuration标识，则类Class对应的BeanDefinition属性值设置为full
 	public static final String CONFIGURATION_CLASS_FULL = "full";
-
+	// 在解析类的过程中，如果类未被@Configuration标识，则类Class对应的BeanDefinition属性值设置lite
 	public static final String CONFIGURATION_CLASS_LITE = "lite";
 
 	public static final String CONFIGURATION_CLASS_ATTRIBUTE =
