@@ -255,7 +255,9 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 
 	/**
 	 * Prepare the Configuration classes for servicing bean requests at runtime
+	 * 准备配置类服务于bean的请求(为bean的初始化提供后置处理类)
 	 * by replacing them with CGLIB-enhanced subclasses.
+	 * 对于被@Annotation标识的类，由CGLIB生成代理子类
 	 */
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
