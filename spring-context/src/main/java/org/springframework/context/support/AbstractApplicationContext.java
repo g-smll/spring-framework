@@ -925,6 +925,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons.
+		// 初始化所有(非懒加载)单例对象
 		beanFactory.preInstantiateSingletons();
 	}
 
