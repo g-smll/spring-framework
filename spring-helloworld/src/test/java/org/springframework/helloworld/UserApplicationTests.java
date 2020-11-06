@@ -30,6 +30,8 @@ public class UserApplicationTests {
 	public  void getBean() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
 		User user = context.getBean(User.class);
-		System.out.printf("user->" + user.toString());
+		JavaConfig javaConfig = context.getBean(JavaConfig.class);
+		System.out.println("user->" + user.toString() +";bean ->" + user);
+		System.out.println("javaConfig bean -> " + javaConfig);
 	}
 }

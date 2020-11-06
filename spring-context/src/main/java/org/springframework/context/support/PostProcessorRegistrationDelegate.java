@@ -68,6 +68,8 @@ final class PostProcessorRegistrationDelegate {
 
 		if (beanFactory instanceof BeanDefinitionRegistry) {
 			BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
+			// regularPostProcessors 开发人员自定义FactoryPostProcessor
+			// registryProcessors Spring内部FactoryPostProcessor
 			List<BeanFactoryPostProcessor> regularPostProcessors = new ArrayList<>();
 			List<BeanDefinitionRegistryPostProcessor> registryProcessors = new ArrayList<>();
 			// beanFactoryPostProcessors 传入BeanFactoryPostProcessor集合为空
