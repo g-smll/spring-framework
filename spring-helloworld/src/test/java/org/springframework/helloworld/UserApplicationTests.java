@@ -18,6 +18,9 @@ package org.springframework.helloworld;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.helloworld.dependency.BootstrapConfig;
+import org.springframework.helloworld.dependency.OrderService;
+import org.springframework.helloworld.dependency.UserService;
 
 /**
  * description class UserApplicationTest.
@@ -33,5 +36,12 @@ public class UserApplicationTests {
 		JavaConfig javaConfig = context.getBean(JavaConfig.class);
 		System.out.println("user->" + user.toString() +";bean ->" + user);
 		System.out.println("javaConfig bean -> " + javaConfig);
+	}
+
+	@Test
+	public void testDependency(){
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(BootstrapConfig.class);
+		System.out.println("userService->" + context.getBean(UserService.class));
+		System.out.println("orderService->" + context.getBean(OrderService.class));
 	}
 }

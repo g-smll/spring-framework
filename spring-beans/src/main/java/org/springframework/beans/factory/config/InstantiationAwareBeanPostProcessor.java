@@ -48,10 +48,15 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 
 	/**
 	 * Apply this BeanPostProcessor <i>before the target bean gets instantiated</i>.
+	 * 提供 BeanPostProcessor 在目标对象初始化之前
 	 * The returned bean object may be a proxy to use instead of the target bean,
-	 * effectively suppressing default instantiation of the target bean.
+	 * 返回一个bean对象，该对象可能是一个代理对象，代表目标 bean
+	 * effectively(有效的) suppressing(禁止) default instantiation(实例化) of the target bean.
+	 * 有效的禁止默认实例化目标对象
 	 * <p>If a non-null object is returned by this method, the bean creation process
+	 * 如果是一个非空对象，该方法将其返回， bean创建流程会短路
 	 * will be short-circuited. The only further processing applied is the
+	 * 更进一步的处理是postProcessAfterInitialization方法的回调从配置
 	 * {@link #postProcessAfterInitialization} callback from the configured
 	 * {@link BeanPostProcessor BeanPostProcessors}.
 	 * <p>This callback will be applied to bean definitions with their bean class,
