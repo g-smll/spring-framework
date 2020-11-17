@@ -20,8 +20,11 @@ import org.springframework.lang.Nullable;
 
 /**
  * Interface to be implemented by objects used within a {@link BeanFactory} which
- * are themselves factories for individual objects. If a bean implements this
+ * 使用一个对象实例花括号中的接口BeanFactory
+ * are themselves factories for individual(独立个体) objects. If a bean implements this
+ * 对于独特的对象而言，他们(实例了BeanFactory的对象)就是工厂，如果一个bean实例了FactoryBean接口
  * interface, it is used as a factory for an object to expose, not directly as a
+ * 此bean被视为一个工厂，爆光一个对象，而不做直接做为一个bean的实例，爆光其本身
  * bean instance that will be exposed itself.
  *
  * <p><b>NB: A bean that implements this interface cannot be used as a normal bean.</b>
@@ -77,11 +80,14 @@ public interface FactoryBean<T> {
 
 	/**
 	 * Return an instance (possibly shared or independent) of the object
+	 * 返回一个被工厂管理对象实例(可能是共享或独立的)
 	 * managed by this factory.
 	 * <p>As with a {@link BeanFactory}, this allows support for both the
+	 * 工厂允许支持该两种设计模式，单例或原型
 	 * Singleton and Prototype design pattern.
 	 * <p>If this FactoryBean is not fully initialized yet at the time of
-	 * the call (for example because it is involved in a circular reference),
+	 * 如果FactoryBean在没有完全初始化被回调
+	 * the call (for example because it is involved(涉及) in a circular(循环) reference),
 	 * throw a corresponding {@link FactoryBeanNotInitializedException}.
 	 * <p>As of Spring 2.0, FactoryBeans are allowed to return {@code null}
 	 * objects. The factory will consider this as normal value to be used; it

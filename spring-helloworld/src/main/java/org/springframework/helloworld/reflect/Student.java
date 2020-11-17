@@ -13,29 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.helloworld;
+package org.springframework.helloworld.reflect;
 
-
-public class User {
-	private int id;
+/**
+ * description class User.
+ *
+ * @author Chen Gang
+ */
+public class Student {
 	private String name;
+	private String address;
 
-	public User() {
-		System.out.println("non-arg User -> 构造方法");
+	public Student() {
 	}
 
-	public User(int id, String name) {
-		System.out.println("full-arg User -> 构造方法");
-		this.id = id;
+	public Student(String name, String address) {
 		this.name = name;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+		this.address = address;
 	}
 
 	public String getName() {
@@ -46,11 +40,11 @@ public class User {
 		this.name = name;
 	}
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				'}';
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

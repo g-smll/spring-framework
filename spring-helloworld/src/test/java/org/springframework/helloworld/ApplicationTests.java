@@ -21,21 +21,23 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.helloworld.dependency.BootstrapConfig;
 import org.springframework.helloworld.dependency.OrderService;
 import org.springframework.helloworld.dependency.UserService;
+import org.springframework.helloworld.instantiation.InstantiationBootstrapConfig;
+import org.springframework.helloworld.instantiation.ProductService;
+import org.springframework.helloworld.reflect.Student;
 
 /**
  * description class UserApplicationTest.
  *
  * @author Chen Gang
  */
-public class UserApplicationTests {
+public class ApplicationTests {
 
 	@Test
 	public  void getBean() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
 		User user = context.getBean(User.class);
-		JavaConfig javaConfig = context.getBean(JavaConfig.class);
 		System.out.println("user->" + user.toString() +";bean ->" + user);
-		System.out.println("javaConfig bean -> " + javaConfig);
+
 	}
 
 	@Test
@@ -43,5 +45,27 @@ public class UserApplicationTests {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(BootstrapConfig.class);
 		System.out.println("userService->" + context.getBean(UserService.class));
 		System.out.println("orderService->" + context.getBean(OrderService.class));
+	}
+
+	@Test
+	public void testInstantiation(){
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(InstantiationBootstrapConfig.class);
+		System.out.println("productService ->" + context.getBean(ProductService.class));
+	}
+
+	@Test
+	public void testReflect(){
+		Class<Student> studentClass = Student.class;
+		try {
+			Student student = studentClass.newInstance();
+			System.out.println("student->"+student);
+		}
+		catch (InstantiationException e) {
+			e.printStackTrace();
+		}
+		catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

@@ -13,44 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.helloworld;
+package org.springframework.mybatis.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mybatis.dao.UserDao;
+import org.springframework.stereotype.Service;
 
 
-public class User {
-	private int id;
-	private String name;
 
-	public User() {
-		System.out.println("non-arg User -> 构造方法");
-	}
+/**
+ * description class UserService.
+ *
+ * @author Chen Gang
+ */
+@Service
+public class UserService {
 
-	public User(int id, String name) {
-		System.out.println("full-arg User -> 构造方法");
-		this.id = id;
-		this.name = name;
-	}
+	@Autowired
+	UserDao userDao;
 
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				'}';
+	public List<Map<String,Object>> query(){
+		return this.userDao.query();
 	}
 }

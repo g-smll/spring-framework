@@ -13,44 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.helloworld;
+package org.springframework.mybatis.dao;
 
+import java.util.List;
+import java.util.Map;
 
-public class User {
-	private int id;
-	private String name;
+import org.apache.ibatis.annotations.Select;
 
-	public User() {
-		System.out.println("non-arg User -> 构造方法");
-	}
+public interface UserDao {
 
-	public User(int id, String name) {
-		System.out.println("full-arg User -> 构造方法");
-		this.id = id;
-		this.name = name;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				'}';
-	}
+	@Select("select * from user")
+	public List<Map<String,Object>> query();
 }

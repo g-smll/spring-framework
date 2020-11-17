@@ -13,44 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.helloworld;
+package org.springframework.mybatis.mybatis;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 
-public class User {
-	private int id;
-	private String name;
-
-	public User() {
-		System.out.println("non-arg User -> 构造方法");
-	}
-
-	public User(int id, String name) {
-		System.out.println("full-arg User -> 构造方法");
-		this.id = id;
-		this.name = name;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+/**
+ * description class GangInvocationHandler.
+ *
+ * @author Chen Gang
+ */
+public class GangInvocationHandler implements InvocationHandler {
 	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				'}';
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		return null;
 	}
 }

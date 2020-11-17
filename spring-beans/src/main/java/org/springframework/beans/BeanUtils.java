@@ -179,8 +179,11 @@ public abstract class BeanUtils {
 
 	/**
 	 * Convenience method to instantiate a class using the given constructor.
+	 * 通过给定的构造器实例化对象类的便捷方法
 	 * <p>Note that this method tries to set the constructor accessible if given a
+	 * 需要注意到的是，对于一个非可访问的非公开方法，将会设置该构造器是可访问的
 	 * non-accessible (that is, non-public) constructor, and supports Kotlin classes
+	 * 通过操作参数和默认值，支持Kotlin的类
 	 * with optional parameters and default values.
 	 * @param ctor the constructor to instantiate
 	 * @param args the constructor arguments to apply (use {@code null} for an unspecified
