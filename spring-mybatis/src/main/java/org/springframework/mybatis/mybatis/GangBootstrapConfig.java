@@ -17,6 +17,7 @@ package org.springframework.mybatis.mybatis;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * description class GangBootstrapConfig.
@@ -25,5 +26,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @ComponentScan("org.springframework.mybatis.mybatis")
 @Configuration
+@Import(GangImportBeanDefinitionRegistrar.class)
 public class GangBootstrapConfig {
 }

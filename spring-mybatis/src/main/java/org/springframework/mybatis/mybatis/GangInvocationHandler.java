@@ -15,6 +15,8 @@
  */
 package org.springframework.mybatis.mybatis;
 
+import org.apache.ibatis.annotations.Select;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
@@ -26,6 +28,7 @@ import java.lang.reflect.Method;
 public class GangInvocationHandler implements InvocationHandler {
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		System.out.println(method.getAnnotation(Select.class).value()[0]);
 		return null;
 	}
 }

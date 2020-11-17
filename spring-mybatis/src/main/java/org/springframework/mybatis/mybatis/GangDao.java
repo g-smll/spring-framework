@@ -14,5 +14,10 @@
  * limitations under the License.
  */
 package org.springframework.mybatis.mybatis;
+
+import org.apache.ibatis.annotations.Select;
+
 public interface GangDao {
+	@Select("select * from gang")
+	public void query();
 }

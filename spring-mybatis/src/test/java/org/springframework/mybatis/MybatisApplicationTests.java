@@ -20,6 +20,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.mybatis.dao.UserDao;
 import org.springframework.mybatis.factorybean.FactoryBeanConfig;
 import org.springframework.mybatis.mybatis.GangBootstrapConfig;
+import org.springframework.mybatis.mybatis.GangDao;
+import org.springframework.mybatis.mybatis.GangFactoryBean;
 import org.springframework.mybatis.service.UserService;
 
 /**
@@ -70,8 +72,15 @@ public class MybatisApplicationTests {
 
 	// 仿照mybatis,java动状态代理,生成spring bean 由容器托管
 	// 知识点1， FactoryBean
+	// 知识点2， java 动态代理
+	// 知识点3， Spring 扫描包
+	// 知识点4， ImportBeanDefinitionRegistrar
+	// 知识点5， 注解开发
 	@Test
 	public void testMySelfMybatis() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(GangBootstrapConfig.class);
+		GangDao gangDaoImpl = (GangDao) context.getBean("GangDaoImpl");
+		gangDaoImpl.query();
+		System.out.println(context.getBean("GangDaoImpl").getClass().getSimpleName());
 	}
 }
