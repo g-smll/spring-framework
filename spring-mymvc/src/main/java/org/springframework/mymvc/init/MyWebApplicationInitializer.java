@@ -15,6 +15,9 @@
  */
 package org.springframework.mymvc.init;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRegistration;
+
 import org.springframework.mymvc.config.AppConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -26,14 +29,16 @@ import org.springframework.web.servlet.DispatcherServlet;
  * @author Chen Gang
  */
 public class MyWebApplicationInitializer implements WebApplicationInitializer {
-
 	@Override
-	public void onStartup(javax.servlet.ServletContext servletContext) {
+	public void onStartup(ServletContext servletContext) {
 		// Load Spring web application configuration
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
 		context.register(AppConfig.class);
 
 		// Create and register the DispatcherServlet
 		DispatcherServlet dispatcherServlet = new DispatcherServlet(context);
+		ServletRegistration.Dynamic registration = servletContext.addServlet("app", dispatcherServlet);
+		registration.setLoadOnStartup(1);
+		registration.addMapping("/app/**");
 	}
 }
