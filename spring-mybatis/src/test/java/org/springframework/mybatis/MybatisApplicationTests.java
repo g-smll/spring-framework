@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package org.springframework.mybatis;
+
 import org.junit.jupiter.api.Test;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -21,7 +22,6 @@ import org.springframework.mybatis.dao.UserDao;
 import org.springframework.mybatis.factorybean.FactoryBeanConfig;
 import org.springframework.mybatis.mybatis.GangBootstrapConfig;
 import org.springframework.mybatis.mybatis.GangDao;
-import org.springframework.mybatis.mybatis.GangFactoryBean;
 import org.springframework.mybatis.service.UserService;
 
 /**

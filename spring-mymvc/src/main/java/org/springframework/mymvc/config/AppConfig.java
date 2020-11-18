@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.mybatis.mybatis;
+package org.springframework.mymvc.config;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-
-import org.apache.ibatis.annotations.Select;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * description class GangInvocationHandler.
+ * description class AppConfig.
  *
  * @author Chen Gang
  */
-public class GangInvocationHandler implements InvocationHandler {
-	@Override
-	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-		System.out.println(method.getAnnotation(Select.class).value()[0]);
-		return null;
-	}
+@Configuration
+@ComponentScan
+public class AppConfig {
 }
