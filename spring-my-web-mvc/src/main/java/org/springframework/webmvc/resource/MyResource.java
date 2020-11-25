@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.mymvc.config;
+package org.springframework.webmvc.resource;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * description class AppConfig.
+ * description class MyResource.
  *
  * @author Chen Gang
  */
-@Configuration
-@ComponentScan("org.springframework.mymvc")
-@EnableWebMvc
-public class AppConfig extends WebMvcConfigurationSupport {
+@RestController
+public class MyResource {
+
+	@GetMapping("/hello-world")
+	public String HelloWorld(){
+		return "hello world";
+	}
 }

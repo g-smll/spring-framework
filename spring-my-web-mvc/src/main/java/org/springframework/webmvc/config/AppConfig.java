@@ -13,20 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.mymvc.config;
+package org.springframework.webmvc.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 /**
  * description class AppConfig.
  *
  * @author Chen Gang
  */
+@ComponentScan("org.springframework.webmvc")
 @Configuration
-@ComponentScan("org.springframework.mymvc")
-@EnableWebMvc
-public class AppConfig extends WebMvcConfigurationSupport {
+public class AppConfig {
 }
