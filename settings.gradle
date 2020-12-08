@@ -66,4 +66,5 @@ include 'spring-helloworld'
 include 'spring-mybatis'
 include 'spring-mymvc'
 include 'spring-my-web-mvc'
+include 'spring-myaop'
 
