@@ -336,7 +336,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	//---------------------------------------------------------------------
 	// Implementation of remaining BeanFactory methods
 	//---------------------------------------------------------------------
-
+	// author gang.chen 以类为参数，获取spring bean E.g requiredType->AopService.class
 	@Override
 	public <T> T getBean(Class<T> requiredType) throws BeansException {
 		return getBean(requiredType, (Object[]) null);
@@ -346,6 +346,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Override
 	public <T> T getBean(Class<T> requiredType, @Nullable Object... args) throws BeansException {
 		Assert.notNull(requiredType, "Required type must not be null");
+		//ResolvableType.forRawClass(requiredType) Class转为ResolvableType E.g AopService.class -> ResolvableType
 		Object resolved = resolveBean(ResolvableType.forRawClass(requiredType), args, false);
 		if (resolved == null) {
 			throw new NoSuchBeanDefinitionException(requiredType);
@@ -491,6 +492,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Nullable
 	private <T> T resolveBean(ResolvableType requiredType, @Nullable Object[] args, boolean nonUniqueAsNull) {
+		// NamedBeanHolder Spring中间对象，保存bean的name和bean对象
+		// nameBean: beanName bean的名字， beanInstance bean的实例，已经被cglib增强的类
 		NamedBeanHolder<T> namedBean = resolveNamedBean(requiredType, args, nonUniqueAsNull);
 		if (namedBean != null) {
 			return namedBean.getBeanInstance();
@@ -1211,6 +1214,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		throw new NoSuchBeanDefinitionException(requiredType);
 	}
 
+	//返回NameBeanHolder 包含两属性 beanName, beanInstance
+	//beanInstance 是一个被cglib/jdk 增强的bean实例
+	// requiredType-> AopService.class, args->null,nonUniqueAsNull-false
 	@SuppressWarnings("unchecked")
 	@Nullable
 	private <T> NamedBeanHolder<T> resolveNamedBean(
@@ -1218,7 +1224,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		Assert.notNull(requiredType, "Required type must not be null");
 		String[] candidateNames = getBeanNamesForType(requiredType);
-
+		// 获取到bean的名字
 		if (candidateNames.length > 1) {
 			List<String> autowireCandidates = new ArrayList<>(candidateNames.length);
 			for (String beanName : candidateNames) {
@@ -1232,6 +1238,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 
 		if (candidateNames.length == 1) {
+			//bean没有别名，默认bean只有一个bean名称，E.g MyAopApplicationTests->AopService->aopService
 			String beanName = candidateNames[0];
 			return new NamedBeanHolder<>(beanName, (T) getBean(beanName, requiredType.toClass(), args));
 		}

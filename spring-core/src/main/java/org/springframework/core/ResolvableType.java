@@ -44,6 +44,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * Encapsulates a Java {@link java.lang.reflect.Type}, providing access to
+ * 增强一个JAVA类
  * {@link #getSuperType() supertypes}, {@link #getInterfaces() interfaces}, and
  * {@link #getGeneric(int...) generic parameters} along with the ability to ultimately
  * {@link #resolve() resolve} to a {@link java.lang.Class}.

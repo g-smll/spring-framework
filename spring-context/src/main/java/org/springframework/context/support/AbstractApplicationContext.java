@@ -1177,9 +1177,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return getBeanFactory().getBean(name, args);
 	}
 
+	//author gang.chen
+	//以类为参数，获取spring bean E.g requiredType-> AopService.class
 	@Override
 	public <T> T getBean(Class<T> requiredType) throws BeansException {
 		assertBeanFactoryActive();
+		// getBeanFactory() -> DefaultListableBeanFactory
 		return getBeanFactory().getBean(requiredType);
 	}
 

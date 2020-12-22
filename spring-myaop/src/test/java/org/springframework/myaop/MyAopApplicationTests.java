@@ -37,9 +37,17 @@ public class MyAopApplicationTests {
 	//测试AOP基础配置
 	@Test
 	public void test1(){
+		//
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AopAppConfig.class);
+
+		//获取spring bean实例，通过getBean获取到
 		AopService aopService = context.getBean(AopService.class);
+		//动态代理 -> JDK & CGLIB
 		aopService.SayAop();
 
+	}
+
+	@Test
+	public void test2(){
 	}
 }
