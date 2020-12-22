@@ -227,6 +227,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @return an instance of the bean
 	 * @throws BeansException if the bean could not be created
 	 */
+	//name 类的名称 E.g name->aopService; requiredType类对象 E.g requiredType->AopService.class; args->null
 	public <T> T getBean(String name, @Nullable Class<T> requiredType, @Nullable Object... args)
 			throws BeansException {
 
@@ -244,6 +245,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @return an instance of the bean
 	 * @throws BeansException if the bean could not be created
 	 */
+	// doGetBean创建一个spring bean对象的入口， 一个JDK或CGLIB增强的bean对象
+	// 初始化上下文->AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Class)也会被调用
 	@SuppressWarnings("unchecked")
 	protected <T> T doGetBean(
 			String name, @Nullable Class<T> requiredType, @Nullable Object[] args, boolean typeCheckOnly)
@@ -253,6 +256,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		Object bean;
 
 		// Eagerly check singleton cache for manually registered singletons.
+		// debug 调试时先跳过初始化上下文再打断点
+		// getSingleton(beanName) -> 获取的bean已经是一个被CGLIB增强后的对象
 		Object sharedInstance = getSingleton(beanName);
 		if (sharedInstance != null && args == null) {
 			if (logger.isTraceEnabled()) {
@@ -332,8 +337,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// 创建bean的实例
 				if (mbd.isSingleton()) {
 					// 创建流程
-					// 1 createBean函数创建bean
-					// 2 getSingleton函数载入bean到DefaultSingletonBeanRegistry.singletonObjects MAP
+					// 1 getSingleton->先获取，如何不存在，通过createBean->创建
+					// 2 createBean函数->载入bean到DefaultSingletonBeanRegistry.singletonObjects MAP
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
 							return createBean(beanName, mbd, args);

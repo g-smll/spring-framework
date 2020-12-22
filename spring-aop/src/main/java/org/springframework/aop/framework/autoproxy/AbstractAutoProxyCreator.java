@@ -281,11 +281,15 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	 * identified as one to proxy by the subclass.
 	 * @see #getAdvicesAndAdvisorsForBean
 	 */
+	// 时间 2020/12/22
+	// author gang.chen
+	// 原生对象，代理增强类的方法入口
 	@Override
 	public Object postProcessAfterInitialization(@Nullable Object bean, String beanName) {
 		if (bean != null) {
 			Object cacheKey = getCacheKey(bean.getClass(), beanName);
 			if (this.earlyProxyReferences.remove(cacheKey) != bean) {
+				//代理对象创建的入口点
 				return wrapIfNecessary(bean, beanName, cacheKey);
 			}
 		}

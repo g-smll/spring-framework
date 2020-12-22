@@ -37,12 +37,16 @@ public class MyAopApplicationTests {
 	//测试AOP基础配置
 	@Test
 	public void test1(){
-		//
+		//#####################################################################################################################
+		//## 结论
+		//## AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AopAppConfig.class);
+		//## 创建上下文结束后，所有spring bean已经完成实例化，bean CGLIB/JDK增强
+		//## AopService aopService = context.getBean(AopService.class);
+		//## 调整AnnotationConfigApplicationContext.getBean(Class)只是从singletonObjects MAP集合中获取到bean的实例
+		//#####################################################################################################################
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AopAppConfig.class);
-
-		//获取spring bean实例，通过getBean获取到
+		//获取spring bean实例，通过getBean获取到(注：该spring bean 已经被JDK & CGLIB增强)
 		AopService aopService = context.getBean(AopService.class);
-		//动态代理 -> JDK & CGLIB
 		aopService.SayAop();
 
 	}

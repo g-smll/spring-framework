@@ -435,12 +435,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		return result;
 	}
 
+	//时间 2020/12/22
+	//author gang.chen
+	//spring bean 后置处理器的入口点，将原生生成转换为代理增强对象
 	@Override
 	public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName)
 			throws BeansException {
 
 		Object result = existingBean;
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
+			//当后置处理器处理类为->AbstractAutoProxyCreator 跳转到方法->postProcessAfterInitialization
 			Object current = processor.postProcessAfterInitialization(result, beanName);
 			if (current == null) {
 				return result;
@@ -488,6 +492,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * populates the bean instance, applies post-processors, etc.
 	 * @see #doCreateBean
 	 */
+	// author gang.chen
+	// AbstractAutowireCapableBeanFactorycreateBean(String beanName, RootBeanDefinition mbd, @Nullable Object[] args)
+	// createBean() -> 完成spring bean 的创建
 	@Override
 	protected Object createBean(String beanName, RootBeanDefinition mbd, @Nullable Object[] args)
 			throws BeanCreationException {
@@ -529,7 +536,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		try {
-			// 实例化bean的对象
+			// 实例化bean的对象，真正完成spring bean对象的实例化
+			// beanInstance 一个被CGLIB/JDK增强的spring bean实例
+			// doCreateBean -> 将一个源生对象转换为一个代理对象
 			Object beanInstance = doCreateBean(beanName, mbdToUse, args);
 			if (logger.isTraceEnabled()) {
 				logger.trace("Finished creating instance of bean '" + beanName + "'");
@@ -562,10 +571,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @see #instantiateUsingFactoryMethod
 	 * @see #autowireConstructor
 	 */
+	// author gang.chen
+	// 将一个源生对象增强为一个代理对象
+	// 生成spring bean 实例
 	protected Object doCreateBean(String beanName, RootBeanDefinition mbd, @Nullable Object[] args)
 			throws BeanCreationException {
 
-		// Instantiate the bean.
+		// BeanWrapper bean 的包裹对象，是对源生对象的包装
 		BeanWrapper instanceWrapper = null;
 		if (mbd.isSingleton()) {
 			instanceWrapper = this.factoryBeanInstanceCache.remove(beanName);
@@ -574,6 +586,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			//此处会调用构造方法，完成bean的实例化
 			instanceWrapper = createBeanInstance(beanName, mbd, args);
 		}
+		// 从包装对象BeanWrapper对象中，获取到源生成对象 E.g-> AopService.class
 		Object bean = instanceWrapper.getWrappedInstance();
 		Class<?> beanType = instanceWrapper.getWrappedClass();
 		if (beanType != NullBean.class) {
@@ -606,11 +619,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
 		}
 
-		// Initialize the bean instance.
+		// 初化化spring bean的一个实例
 		Object exposedObject = bean;
 		try {
-			// 业务意义，自动注入&第5，6次后置处理器调用
 			populateBean(beanName, mbd, instanceWrapper);
+			// 执行后置处理器， AOP就是在此处完成CGLIB代理的增强
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
 		}
 		catch (Throwable ex) {
@@ -1775,6 +1788,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @see #invokeInitMethods
 	 * @see #applyBeanPostProcessorsAfterInitialization
 	 */
+	// 时间：2020/12/22
+	// author gang.chen
+	// initializeBean-> 通过该方法，将源生对象，增强为代理对象
 	protected Object initializeBean(String beanName, Object bean, @Nullable RootBeanDefinition mbd) {
 		if (System.getSecurityManager() != null) {
 			AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
@@ -1786,6 +1802,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			invokeAwareMethods(beanName, bean);
 		}
 
+		// wrappedBean -> 对象类一个源生对象E.g AopService.class
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
@@ -1800,6 +1817,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Invocation of init method failed", ex);
 		}
 		if (mbd == null || !mbd.isSynthetic()) {
+			// 执行bean的后置处理器，将原生对象转为CGLIB/JDK代理对象
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 

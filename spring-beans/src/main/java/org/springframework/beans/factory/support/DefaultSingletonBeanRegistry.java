@@ -75,6 +75,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 
 	/** Cache of singleton objects: bean name to bean instance. */
+	// singletonObjects-> 一个Map数据结构，传说中的spring bean的工厂
 	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
 
 	/** Cache of singleton factories: bean name to ObjectFactory. */
@@ -134,6 +135,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @param beanName the name of the bean
 	 * @param singletonObject the singleton object
 	 */
+	//断点调试技巧，singletonObjects.put寻找加载bean的入口
 	protected void addSingleton(String beanName, Object singletonObject) {
 		synchronized (this.singletonObjects) {
 			this.singletonObjects.put(beanName, singletonObject);
@@ -164,6 +166,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 	@Override
 	@Nullable
+	// 方法->getSingleton(String beanName) 获取的是一个已经被CGLIB/JDK增强后的对象
 	public Object getSingleton(String beanName) {
 		return getSingleton(beanName, true);
 	}
@@ -176,9 +179,12 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @param allowEarlyReference whether early references should be created or not
 	 * @return the registered singleton object, or {@code null} if none found
 	 */
+	//debug 注意：该方法会被多次调整，需要对beanName增加条件断点调试
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 		// Quick check for existing instance without full singleton lock
+		// this.singletonObjects.get(beanName)-> 该方法获取的对象已经被CGLIB/JDK增加过的对象
+		// singletonObjects 数据结构为Map, 存在Spring bean
 		Object singletonObject = this.singletonObjects.get(beanName);
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			singletonObject = this.earlySingletonObjects.get(beanName);
@@ -231,6 +237,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					this.suppressedExceptions = new LinkedHashSet<>();
 				}
 				try {
+					//singletonFactory.getObject() 回调方法为 ->AbstractBeanFactory.createBean(String beanName, RootBeanDefinition mbd, @Nullable Object[] args)
 					singletonObject = singletonFactory.getObject();
 					newSingleton = true;
 				}
