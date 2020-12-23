@@ -98,10 +98,15 @@ public class ProxyCreatorSupport extends AdvisedSupport {
 	 * Subclasses should call this to get a new AOP proxy. They should <b>not</b>
 	 * create an AOP proxy with {@code this} as an argument.
 	 */
+	// author gang.chen
+	// 时间 2020/12/23
+	// createAopProxy() -> 创建代理策略共三个
+	// 策略1->CglibAopProxy, 策略2->JdkDynamicAopProxy,策略3->ObjenesisCglibAopProxy
 	protected final synchronized AopProxy createAopProxy() {
 		if (!this.active) {
 			activate();
 		}
+		//createAopProxy()-> 函数返回具体使用哪个策略
 		return getAopProxyFactory().createAopProxy(this);
 	}
 

@@ -55,6 +55,9 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
 	private static final boolean IN_NATIVE_IMAGE = (System.getProperty("org.graalvm.nativeimage.imagecode") != null);
 
 
+	// author gang.chen
+	// 时间 2020/12/23
+	// createAopProxy() -> 创建AOP策略
 	@Override
 	public AopProxy createAopProxy(AdvisedSupport config) throws AopConfigException {
 		if (!IN_NATIVE_IMAGE &&
