@@ -245,8 +245,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @return an instance of the bean
 	 * @throws BeansException if the bean could not be created
 	 */
-	// doGetBean创建一个spring bean对象的入口， 一个JDK或CGLIB增强的bean对象
-	// 初始化上下文->AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Class)也会被调用
 	@SuppressWarnings("unchecked")
 	protected <T> T doGetBean(
 			String name, @Nullable Class<T> requiredType, @Nullable Object[] args, boolean typeCheckOnly)
@@ -256,8 +254,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		Object bean;
 
 		// Eagerly check singleton cache for manually registered singletons.
-		// debug 调试时先跳过初始化上下文再打断点
-		// getSingleton(beanName) -> 获取的bean已经是一个被CGLIB增强后的对象
 		Object sharedInstance = getSingleton(beanName);
 		if (sharedInstance != null && args == null) {
 			if (logger.isTraceEnabled()) {

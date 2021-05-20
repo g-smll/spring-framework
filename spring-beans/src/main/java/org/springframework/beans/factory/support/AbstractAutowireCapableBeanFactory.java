@@ -524,7 +524,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		try {
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
-			// 给bean post processors 一个机会，返回目标bean实例的代理，第一次运行后置处理器
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {
 				return bean;
@@ -571,22 +570,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @see #instantiateUsingFactoryMethod
 	 * @see #autowireConstructor
 	 */
-	// author gang.chen
-	// 将一个源生对象增强为一个代理对象
-	// 生成spring bean 实例
 	protected Object doCreateBean(String beanName, RootBeanDefinition mbd, @Nullable Object[] args)
 			throws BeanCreationException {
-
-		// BeanWrapper bean 的包裹对象，是对源生对象的包装
 		BeanWrapper instanceWrapper = null;
 		if (mbd.isSingleton()) {
 			instanceWrapper = this.factoryBeanInstanceCache.remove(beanName);
 		}
 		if (instanceWrapper == null) {
-			//此处会调用构造方法，完成bean的实例化
 			instanceWrapper = createBeanInstance(beanName, mbd, args);
 		}
-		// 从包装对象BeanWrapper对象中，获取到源生成对象 E.g-> AopService.class
 		Object bean = instanceWrapper.getWrappedInstance();
 		Class<?> beanType = instanceWrapper.getWrappedClass();
 		if (beanType != NullBean.class) {
