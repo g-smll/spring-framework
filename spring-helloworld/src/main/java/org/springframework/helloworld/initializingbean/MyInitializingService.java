@@ -13,35 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.myaop.declaring.aspect;
+package org.springframework.helloworld.initializingbean;
 
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
-
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 /**
- * description class NotVeryUsefulAspect.
+ * description class MyInitializingBean.
  *
  * @author Chen Gang
  */
-@Aspect
 @Component
-public class NotVeryUsefulAspect {
+public class MyInitializingService implements InitializingBean {
 
-	@Pointcut("execution(* org.springframework.myaop.service.AopService.*(..))")
-	public void pointCutTest(){
+	MyInitializeUser initializeUser;
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+
+		System.out.println("###### MyInitializingService-> afterPropertiesSet ");
 	}
 
-	@Before("pointCutTest()")
-	public void before(){
-		System.out.println("####### NotVeryUsefulAspect >before pointCutTest...");
-	}
-
-	@After("pointCutTest()")
-	public void after(){
-		System.out.println("####### NotVeryUsefulAspect >after pointCutTest...");
+	@PostConstruct
+	public void MyPostConstruct(){
+		System.out.println("###### MyInitializingService-> MyPostConstruct ");
 	}
 }

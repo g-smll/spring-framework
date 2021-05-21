@@ -13,35 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.myaop.declaring.aspect;
+package org.springframework.helloworld.listener;
 
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
-
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 /**
- * description class NotVeryUsefulAspect.
+ * description class MyApplicationListener.
  *
  * @author Chen Gang
  */
-@Aspect
 @Component
-public class NotVeryUsefulAspect {
+public class MyApplicationListener implements ApplicationListener<ContextRefreshedEvent> {
 
-	@Pointcut("execution(* org.springframework.myaop.service.AopService.*(..))")
-	public void pointCutTest(){
-	}
-
-	@Before("pointCutTest()")
-	public void before(){
-		System.out.println("####### NotVeryUsefulAspect >before pointCutTest...");
-	}
-
-	@After("pointCutTest()")
-	public void after(){
-		System.out.println("####### NotVeryUsefulAspect >after pointCutTest...");
+	@Override
+	public void onApplicationEvent(ContextRefreshedEvent event) {
+		System.out.println("######## MyApplicationListener->onApplicationEvent");
+		System.out.println(event);
 	}
 }
